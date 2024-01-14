@@ -35,6 +35,7 @@ func Worker(mapf func(string, string) []KeyValue,
 
 	// uncomment to send the Example RPC to the coordinator.
 	// CallExample()
+	CallGetTask()
 
 }
 
@@ -62,6 +63,27 @@ func CallExample() {
 	if ok {
 		// reply.Y should be 100.
 		fmt.Printf("reply.Y %v\n", reply.Y)
+	} else {
+		fmt.Printf("call failed!\n")
+	}
+}
+
+func CallGetTask() {
+
+	// declare an argument structure.
+	args := TaskRequest{}
+
+	// declare a reply structure.
+	reply := TaskResponse{}
+
+	// send the RPC request, wait for the reply.
+	// the "Coordinator.Example" tells the
+	// receiving server that we'd like to call
+	// the Example() method of struct Coordinator.
+	ok := call("Coordinator.GetTask", &args, &reply)
+	if ok {
+		// reply.Y should be 100.
+		fmt.Printf("reply.name %s\n", reply.Name)
 	} else {
 		fmt.Printf("call failed!\n")
 	}

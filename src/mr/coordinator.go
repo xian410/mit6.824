@@ -6,10 +6,13 @@ import "os"
 import "net/rpc"
 import "net/http"
 
+type Task struct {
+	name string
+}
 
 type Coordinator struct {
 	// Your definitions here.
-
+	task Task
 }
 
 // Your code here -- RPC handlers for the worker to call.
@@ -21,6 +24,11 @@ type Coordinator struct {
 //
 func (c *Coordinator) Example(args *ExampleArgs, reply *ExampleReply) error {
 	reply.Y = args.X + 1
+	return nil
+}
+
+func (c *Coordinator) GetTask(args *TaskRequest, reply *TaskResponse) error {
+	reply.Name = c.task.name
 	return nil
 }
 
@@ -46,7 +54,7 @@ func (c *Coordinator) server() {
 // if the entire job has finished.
 //
 func (c *Coordinator) Done() bool {
-	ret := false
+	ret := true
 
 	// Your code here.
 
@@ -60,7 +68,7 @@ func (c *Coordinator) Done() bool {
 // nReduce is the number of reduce tasks to use.
 //
 func MakeCoordinator(files []string, nReduce int) *Coordinator {
-	c := Coordinator{}
+	c := Coordinator{task: Task{name: "hello"}}
 
 	// Your code here.
 
